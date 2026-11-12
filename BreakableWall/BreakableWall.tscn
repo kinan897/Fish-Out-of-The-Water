@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3 uid="uid://uep7diofabgu"]
+
+[ext_resource type="Script" uid="uid://bw384ttmbpdoq" path="res://BreakableWall/breakable_wall.gd" id="1_4qwgy"]
+[ext_resource type="Texture2D" uid="uid://c2534i5c823vr" path="res://icon.svg" id="1_mueby"]
+[ext_resource type="Script" uid="uid://io6osbaqanhm" path="res://StateMachine/StateMachine.gd" id="3_ggta8"]
+[ext_resource type="Script" uid="uid://bh0ct6bwh5fv3" path="res://BreakableWall/States/Idle.gd" id="4_7yigr"]
+[ext_resource type="Script" uid="uid://01jpgtfqavo4" path="res://BreakableWall/States/Hit.gd" id="5_d77g6"]
+[ext_resource type="Script" uid="uid://c3evut2qywe5r" path="res://BreakableWall/States/Broken.gd" id="6_4deyv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4qwgy"]
+size = Vector2(127, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7yigr"]
+size = Vector2(158, 155)
+
+[node name="BreakableWall" type="StaticBody2D"]
+collision_layer = 2
+script = ExtResource("1_4qwgy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 1)
+shape = SubResource("RectangleShape2D_4qwgy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1.2032688e-08, 0.35589454, 0.13023356, 1)
+position = Vector2(-1, 1)
+texture = ExtResource("1_mueby")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
+script = ExtResource("3_ggta8")
+InitialState = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_7yigr")
+
+[node name="Hit" type="Node" parent="StateMachine"]
+script = ExtResource("5_d77g6")
+
+[node name="Broken" type="Node" parent="StateMachine"]
+script = ExtResource("6_4deyv")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-3, 1.5)
+shape = SubResource("RectangleShape2D_7yigr")
+
+[connection signal="area_entered" from="Hitbox" to="StateMachine/Idle" method="_on_hitbox_area_entered"]

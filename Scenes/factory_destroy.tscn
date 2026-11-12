@@ -1,0 +1,95 @@
+[gd_scene load_steps=7 format=3 uid="uid://bfi3h7261m0qd"]
+
+[ext_resource type="Texture2D" uid="uid://bcv7lq8bte2hy" path="res://Assets/Factory/factory.png" id="1_m6vbj"]
+[ext_resource type="Script" uid="uid://bl2p2de0n4c8l" path="res://Scenes/factory_destroy.gd" id="1_wv6i7"]
+[ext_resource type="Texture2D" uid="uid://cdl8vvff3l5ui" path="res://Assets/explode.png" id="2_5vnur"]
+[ext_resource type="Theme" uid="uid://cq7b1l2howmbk" path="res://NPC/FONT.tres" id="4_unfej"]
+
+[sub_resource type="Gradient" id="Gradient_5vnur"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wv6i7"]
+gradient = SubResource("Gradient_5vnur")
+
+[node name="FactoryDestroy" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wv6i7")
+
+[node name="Powerpoint" type="Node" parent="."]
+
+[node name="1" type="Sprite2D" parent="Powerpoint"]
+position = Vector2(578.5, 331.5)
+scale = Vector2(1.9285715, 1.9670658)
+texture = ExtResource("1_m6vbj")
+
+[node name="Sprite2D" type="Sprite2D" parent="Powerpoint/1"]
+position = Vector2(-81.666664, -50.582954)
+scale = Vector2(0.16634849, 0.16414298)
+texture = ExtResource("2_5vnur")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Powerpoint/1"]
+position = Vector2(-201.44446, 83.6271)
+scale = Vector2(0.16634849, 0.16414298)
+texture = ExtResource("2_5vnur")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Powerpoint/1"]
+position = Vector2(-47.444443, 94.30289)
+scale = Vector2(0.16634849, 0.16414298)
+texture = ExtResource("2_5vnur")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Powerpoint/1"]
+position = Vector2(103.44446, 63.292244)
+scale = Vector2(0.16634849, 0.16414298)
+texture = ExtResource("2_5vnur")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Powerpoint/1"]
+position = Vector2(162.03708, -50.582954)
+scale = Vector2(0.16634849, 0.16414298)
+texture = ExtResource("2_5vnur")
+
+[node name="2" type="Sprite2D" parent="Powerpoint"]
+visible = false
+position = Vector2(582.5, 325.5)
+scale = Vector2(1.9318937, 1.9730539)
+texture = ExtResource("1_m6vbj")
+
+[node name="Sprite2D" type="Sprite2D" parent="Powerpoint/2"]
+position = Vector2(1.8116837, -42.320183)
+scale = Vector2(2.3495402, 248.346)
+texture = SubResource("GradientTexture1D_wv6i7")
+
+[node name="3" type="Sprite2D" parent="Powerpoint"]
+visible = false
+position = Vector2(582.5, 325.5)
+scale = Vector2(1.9318937, 1.9730539)
+texture = ExtResource("1_m6vbj")
+
+[node name="Sprite2D" type="Sprite2D" parent="Powerpoint/3"]
+position = Vector2(1.8116837, -42.320183)
+scale = Vector2(2.3495402, 248.346)
+texture = SubResource("GradientTexture1D_wv6i7")
+
+[node name="Label" type="Label" parent="Powerpoint/3"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -469.0
+offset_top = -204.5
+offset_right = -133.0
+offset_bottom = -129.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_unfej")
+text = "You win! 
+The factory is gone!
+The mutants are gone!"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,11 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Editor temp files
+*.tmp
+
+# Exported builds (too large for GitHub; publish as Releases instead)
+*.exe
+*.pck
+builds/

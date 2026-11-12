@@ -1,0 +1,120 @@
+[gd_scene load_steps=15 format=3 uid="uid://dg1mvq72qes2h"]
+
+[ext_resource type="Script" uid="uid://wbx3opidv0sf" path="res://Enemys/Fish/EnemyBase.gd" id="1_jgpvj"]
+[ext_resource type="Script" uid="uid://io6osbaqanhm" path="res://StateMachine/StateMachine.gd" id="2_yqouj"]
+[ext_resource type="Script" uid="uid://ct66iurni40hi" path="res://Enemys/Fish/Walk.gd" id="3_yqouj"]
+[ext_resource type="Script" uid="uid://dpv4uskhx6q7p" path="res://Enemys/Fish/Hit.gd" id="4_05o2h"]
+[ext_resource type="Script" uid="uid://dw3la3terfk25" path="res://Enemys/Fish/Die.gd" id="5_vkycd"]
+[ext_resource type="Texture2D" uid="uid://bc0lnmw5efha6" path="res://Enemys/BUTTRUN-Sheet.png" id="6_mrwpe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_autia"]
+size = Vector2(13, 25)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_41wne"]
+radius = 21.023796
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_il022"]
+atlas = ExtResource("6_mrwpe")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3uu4s"]
+atlas = ExtResource("6_mrwpe")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2lxrd"]
+atlas = ExtResource("6_mrwpe")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uyk3d"]
+atlas = ExtResource("6_mrwpe")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y8vuj"]
+atlas = ExtResource("6_mrwpe")
+region = Rect2(64, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kpvsv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_il022")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3uu4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2lxrd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uyk3d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y8vuj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 18.0
+}]
+
+[node name="Fish" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_jgpvj")
+health = 4
+speed = 3000
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_autia")
+
+[node name="LeftWall" type="RayCast2D" parent="."]
+position = Vector2(-7, 0)
+target_position = Vector2(-4, 0)
+collision_mask = 2
+
+[node name="LeftFloor" type="RayCast2D" parent="."]
+position = Vector2(-7, 13)
+target_position = Vector2(0, 4)
+collision_mask = 2
+hit_from_inside = true
+
+[node name="RightFloor" type="RayCast2D" parent="."]
+position = Vector2(6, 13)
+target_position = Vector2(0, 4)
+collision_mask = 2
+hit_from_inside = true
+
+[node name="RightWall" type="RayCast2D" parent="."]
+position = Vector2(6, 0)
+target_position = Vector2(4, 0)
+collision_mask = 2
+
+[node name="Hitbox" type="Area2D" parent="." groups=["hitbox"]]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 6)
+shape = SubResource("CircleShape2D_41wne")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
+script = ExtResource("2_yqouj")
+InitialState = NodePath("Walk")
+
+[node name="Walk" type="Node" parent="StateMachine"]
+script = ExtResource("3_yqouj")
+
+[node name="Hit" type="Node" parent="StateMachine"]
+script = ExtResource("4_05o2h")
+
+[node name="Die" type="Node" parent="StateMachine"]
+script = ExtResource("5_vkycd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_kpvsv")
+frame_progress = 0.5864287
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(-1, -4)
+rect = Rect2(-31, -25, 63, 63)
+
+[connection signal="area_entered" from="Hitbox" to="StateMachine/Walk" method="_on_hitbox_area_entered"]
